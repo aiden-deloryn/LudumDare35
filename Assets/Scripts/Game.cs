@@ -2,28 +2,26 @@
 using System.Collections;
 
 public class Game : MonoBehaviour {
+	public static Game instance;
 
 	[SerializeField]
-	int roomSize = 10;
+	Sprite squareSprite;
 
 	[SerializeField]
-	int tileSize = 2;
+	Sprite circleSprite;
 
 	[SerializeField]
-	int obstacleLikelihood = 10;
+	Sprite triangleSprite;
 
 	[SerializeField]
-	GameObject[] wallTiles;
+	Sprite diamondSprite;
 
 	[SerializeField]
-	GameObject[] floorTiles;
-
-	[SerializeField]
-	GameObject[] obstacles;
+	Sprite starSprite;
 
 	// Use this for initialization
-	void Start () {
-		GenerateRoom ();
+	void Awake () {
+		instance = this;
 	}
 	
 	// Update is called once per frame
@@ -31,26 +29,37 @@ public class Game : MonoBehaviour {
 	
 	}
 
-	private void GenerateRoom() {
-		for (int row = 0; row < roomSize; row++) {
-			for (int column = 0; column < roomSize; column++) {
-				GameObject tile;
+	public Sprite SpriteForShape(Shape shape) {
+		switch (shape) {
+		case Shape.SQUARE:
+			return squareSprite;
+		case Shape.CIRCLE:
+			return circleSprite;
+		case Shape.TRIANGLE:
+			return triangleSprite;
+		case Shape.DIAMOND:
+			return diamondSprite;
+		case Shape.STAR:
+			return starSprite;
+		default:
+			return new Sprite();
+		}
+	}
 
-				if (row == 0 || column == 0 || row == roomSize - 1 || column == roomSize - 1) {
-					tile = wallTiles [0];
-				} else {
-					if (Random.Range (1, 101) <= obstacleLikelihood) {
-						tile = obstacles [0];
-					} else {
-						tile = floorTiles [0];
-					}
-
-				}
-
-				Vector3 tilePosition = new Vector3 (column * tileSize, row * tileSize);
-
-				GameObject.Instantiate (tile, tilePosition, Quaternion.identity);
-			}
+	public Color ColourForShape(Shape shape) {
+		switch (shape) {
+		case Shape.SQUARE:
+			return Colour.RED;
+		case Shape.CIRCLE:
+			return Colour.GREEN;
+		case Shape.TRIANGLE:
+			return Colour.BLUE;
+		case Shape.DIAMOND:
+			return Colour.YELLOW;
+		case Shape.STAR:
+			return Colour.PURPLE;
+		default:
+			return new Color();
 		}
 	}
 }
