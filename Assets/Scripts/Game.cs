@@ -4,6 +4,9 @@ using System.Collections;
 public class Game : MonoBehaviour {
 	public static Game instance;
 
+	public float speed = .01f;
+	public int pickupSpawnRate = 5;
+
 	[SerializeField]
 	Sprite squareSprite;
 
@@ -22,6 +25,10 @@ public class Game : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		instance = this;
+	}
+
+	void Start() {
+		
 	}
 	
 	// Update is called once per frame

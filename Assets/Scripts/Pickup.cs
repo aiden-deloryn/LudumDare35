@@ -8,7 +8,7 @@ public class Pickup : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		spriteRenderer = this.gameObject.GetComponent<SpriteRenderer> ();
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
 		int randomNum = Random.Range (0, 5);
 
 		switch (randomNum) {
@@ -34,7 +34,8 @@ public class Pickup : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+		Vector3 currentPos = gameObject.transform.position;
+		gameObject.transform.position = new Vector3 (currentPos.x, currentPos.y + Game.instance.speed, currentPos.z);
 	}
 }
