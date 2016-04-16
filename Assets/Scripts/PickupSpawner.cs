@@ -17,6 +17,9 @@ public class PickupSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Game.instance.running == false)
+			return;
+		
 		float currentTime = Time.timeSinceLevelLoad;
 
 		if (currentTime - timeSinceLastTick > 0.1f) {

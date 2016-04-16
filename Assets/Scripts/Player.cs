@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	[SerializeField]
-	float movementSpeed = 5f;
+	float movementSpeed = 10f;
 
 	[SerializeField]
 	SpriteRenderer spriteRenderer;
@@ -16,19 +16,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Input.GetButtonDown("Fire1")) {
-			if (currentShape == Shape.STAR) {
-				ShapeShift (Shape.SQUARE);
-			} else {
-				ShapeShift (currentShape + 1);
-			}
-		} else if (Input.GetButtonDown("Fire2")) {
-			if (currentShape == Shape.SQUARE) {
-				ShapeShift (Shape.STAR);
-			} else {
-				ShapeShift (currentShape - 1);
-			}
-		}
+		
 	}
 	
 	// Update is called once per frame
@@ -43,8 +31,13 @@ public class Player : MonoBehaviour {
 			return;
 		
 		if (currentShape == pickup.GetShape ()) {
-			Destroy (other.gameObject);
+			Game.instance.AddScore(10);
+			ShapeShift ();
+		} else {
+			Game.instance.TakeLife (1);
 		}
+
+		Destroy (other.gameObject);
 	}
 
 	private void Move() {
@@ -54,6 +47,34 @@ public class Player : MonoBehaviour {
 		Vector2 velocity = new Vector2 (horizontalAxis * movementSpeed, 0f);
 
 		rigidbody.velocity = velocity;
+	}
+
+	void ShapeShift() {
+		int randomNum = Random.Range (0, 5);
+		Shape randomShape;
+
+		switch (randomNum) {
+		case 0:
+			randomShape = Shape.SQUARE;
+			break;
+		case 1:
+			randomShape = Shape.CIRCLE;
+			break;
+		case 2:
+			randomShape = Shape.TRIANGLE;
+			break;
+		case 3:
+			randomShape = Shape.DIAMOND;
+			break;
+		case 4:
+			randomShape = Shape.STAR;
+			break;
+		default:
+			randomShape = Shape.SQUARE;
+			break;
+		}
+
+		ShapeShift (randomShape);
 	}
 
 	void ShapeShift(Shape newShape) {
