@@ -9,7 +9,7 @@ public class Game : MonoBehaviour {
 	public float speed = .001f;
 	public int pickupSpawnRate = 10;
 	private int score = 0;
-	private int lives = 3;
+	private int lives = 5;
 	private float timeSinceLastTick = 0f;
 
 	[SerializeField]
@@ -33,6 +33,9 @@ public class Game : MonoBehaviour {
 	[SerializeField]
 	Sprite starSprite;
 
+	[SerializeField]
+	GameObject backgrounStar;
+
 	// Use this for initialization
 	void Awake () {
 		instance = this;
@@ -45,10 +48,14 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!running)
+			return;
+		
 		float currentTime = Time.timeSinceLevelLoad;
-		if (currentTime - timeSinceLastTick > 1f) {
+		if (currentTime - timeSinceLastTick > 0.25f) {
 			speed += 0.001f;
-			pickupSpawnRate += 1;
+			pickupSpawnRate += 2;
+			SpawnStar ();
 			timeSinceLastTick = currentTime;
 		}
 	}
@@ -105,6 +112,21 @@ public class Game : MonoBehaviour {
 		if (lives <= 0) {
 			livesText.text = "Game Over!";
 			running = false;
+		}
+	}
+
+	public void SpawnStar() {
+		Vector3 position = new Vector3(Random.Range(-6f, 6f), -10f, 0f);
+		GameObject star = (GameObject.Instantiate (backgrounStar, position, Quaternion.identity) as GameObject);
+
+		int randomNum = Random.Range (0, 3);
+
+		if (randomNum == 0) {
+			star.GetComponent<Star>().SetSize ("SMALL");
+		} else if (randomNum == 1) {
+			star.GetComponent<Star>().SetSize ("MEDIUM");
+		} else {
+			star.GetComponent<Star>().SetSize ("LARGE");
 		}
 	}
 }
