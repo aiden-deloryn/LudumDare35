@@ -5,6 +5,9 @@ public class PickupSpawner : MonoBehaviour {
 	[SerializeField]
 	GameObject pickup;
 
+	[SerializeField]
+	Transform[] pickupSpawnPoints;
+
 	float timeSinceLastTick = 0f;
 
 	// Use this for initialization
@@ -16,9 +19,10 @@ public class PickupSpawner : MonoBehaviour {
 	void Update () {
 		float currentTime = Time.timeSinceLevelLoad;
 
-		if (currentTime - timeSinceLastTick > 0.5f) {
+		if (currentTime - timeSinceLastTick > 0.1f) {
 			if (Random.Range (0, 1000) < Game.instance.pickupSpawnRate) {
-				GameObject.Instantiate (pickup, gameObject.transform.position, Quaternion.identity);
+				Vector3 spawnPoint = pickupSpawnPoints [Random.Range(0, pickupSpawnPoints.Length)].position;
+				GameObject.Instantiate (pickup, spawnPoint, Quaternion.identity);
 			}
 
 			timeSinceLastTick = currentTime;

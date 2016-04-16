@@ -38,4 +38,8 @@ public class Pickup : MonoBehaviour {
 		Vector3 currentPos = gameObject.transform.position;
 		gameObject.transform.position = new Vector3 (currentPos.x, currentPos.y + Game.instance.speed, currentPos.z);
 	}
+
+	public Shape GetShape () {
+		return shape;
+	}
 }

@@ -36,6 +36,17 @@ public class Player : MonoBehaviour {
 		Move ();
 	}
 
+	public void OnTriggerStay2D(Collider2D other) {
+		Pickup pickup = other.gameObject.GetComponent<Pickup>();
+
+		if (pickup == null)
+			return;
+		
+		if (currentShape == pickup.GetShape ()) {
+			Destroy (other.gameObject);
+		}
+	}
+
 	private void Move() {
 		float horizontalAxis = Input.GetAxis ("Horizontal");
 //		float verticalAxis = Input.GetAxis ("Vertical");
