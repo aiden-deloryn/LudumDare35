@@ -8,7 +8,7 @@ public class Explosion : MonoBehaviour {
 	public Color colour = new Color (1, 1, 1);
 
 	int numberOfParticles = 100;
-	float randomPositionOffset = 0.1f;
+	float randomPositionOffset = 0.5f;
 
 	// Use this for initialization
 	void Start () {

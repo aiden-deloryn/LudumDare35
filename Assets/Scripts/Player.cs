@@ -36,7 +36,8 @@ public class Player : MonoBehaviour {
 		if (currentShape == pickup.GetShape ()) {
 			if (!Game.instance.running)
 				return;
-			
+
+			gameObject.AddComponent<PlayerScoreAnimator> ();
 			Game.instance.AddScore(10);
 			ShapeShift ();
 		} else {

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 	public static Game instance;
-	public bool running = true;
+	public bool running = false;
 
 	public float speed = .05f;
 	public int pickupSpawnRate = 50;

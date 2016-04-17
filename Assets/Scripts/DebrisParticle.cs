@@ -7,9 +7,11 @@ public class DebrisParticle : MonoBehaviour {
 
 	private float xOffset;
 	private float yOffset;
+	private SpriteRenderer spriterenderer;
 
 	// Use this for initialization
 	void Start () {
+		spriterenderer = gameObject.GetComponent<SpriteRenderer> ();
 		xOffset = Random.Range (maxOffsetX * -1, maxOffsetX);
 		yOffset = Random.Range (Game.instance.speed - maxOffsetY, Game.instance.speed + maxOffsetY);
 		Destroy (this.gameObject, 3f);
@@ -20,5 +22,7 @@ public class DebrisParticle : MonoBehaviour {
 		float newPosY = transform.position.y + yOffset;
 		float newPosX = transform.position.x + xOffset;
 		transform.position = new Vector3 (newPosX, newPosY);
+		Color newColour = new Color(spriterenderer.color.r, spriterenderer.color.g, spriterenderer.color.b, spriterenderer.color.a - 0.01f);
+		spriterenderer.color = newColour;
 	}
 }
