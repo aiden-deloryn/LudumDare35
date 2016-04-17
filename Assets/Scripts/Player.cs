@@ -11,10 +11,18 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	GameObject explosion;
 
+	[SerializeField]
+	AudioClip explosionSound;
+
+	[SerializeField]
+	AudioClip scoreSound;
+
 	private Shape currentShape;
+	private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
+		audioSource = gameObject.GetComponent<AudioSource> ();
 		ShapeShift (Shape.SQUARE);
 	}
 
@@ -37,10 +45,12 @@ public class Player : MonoBehaviour {
 			if (!Game.instance.running)
 				return;
 
+			PlaySound (scoreSound);
 			gameObject.AddComponent<PlayerScoreAnimator> ();
 			Game.instance.AddScore(10);
 			ShapeShift ();
 		} else {
+			PlaySound (explosionSound);
 			Game.instance.TakeLife (1);
 			explosion.GetComponent<Explosion> ().colour = Game.instance.ColourForShape (pickup.GetShape ());
 			GameObject.Instantiate (explosion, other.gameObject.transform.position, Quaternion.identity);
@@ -90,5 +100,10 @@ public class Player : MonoBehaviour {
 		currentShape = newShape;
 		spriteRenderer.sprite = Game.instance.SpriteForShape (newShape);
 		spriteRenderer.color = Game.instance.ColourForShape (newShape);
+	}
+
+	void PlaySound(AudioClip sound) {
+		audioSource.clip = sound;
+		audioSource.Play();
 	}
 }

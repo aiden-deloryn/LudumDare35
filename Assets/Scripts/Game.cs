@@ -5,9 +5,10 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour {
 	public static Game instance;
 	public bool running = false;
-
 	public float speed = .05f;
 	public int pickupSpawnRate = 50;
+
+	private AudioSource audioSource;
 	private int score = 0;
 	private int lives = 5;
 	private float timeSinceLastTick = 0f;
@@ -45,6 +46,7 @@ public class Game : MonoBehaviour {
 	}
 
 	void Start() {
+		audioSource = gameObject.GetComponent<AudioSource> ();
 		AddScore (0);
 		TakeLife (0);
 	}
@@ -52,7 +54,7 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float currentTime = Time.timeSinceLevelLoad;
-		if (currentTime - timeSinceLastTick > 0.25f) {
+		if (currentTime - timeSinceLastTick > 0.5f) {
 			if (running) {
 				speed += 0.001f;
 				pickupSpawnRate += 2;
@@ -62,7 +64,7 @@ public class Game : MonoBehaviour {
 			timeSinceLastTick = currentTime;
 		}
 
-		if (!running && Input.GetKeyDown (KeyCode.R)) {
+		if (!running && Input.GetKeyDown (KeyCode.Space)) {
 			running = true;
 			speed = 0.05f;
 			pickupSpawnRate = 50;
@@ -123,10 +125,11 @@ public class Game : MonoBehaviour {
 
 		livesText.text = livesTextValue;
 
-		if (lives <= 0) {
+		if (lives <= 0 && running) {
 			livesText.text = "Game Over!";
 			replayText.enabled = true;
 			running = false;
+			audioSource.Play ();
 		}
 	}
 
