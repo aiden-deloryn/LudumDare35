@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	SpriteRenderer spriteRenderer;
 
+	[SerializeField]
+	GameObject explosion;
+
 	private Shape currentShape;
 
 	// Use this for initialization
@@ -31,10 +34,15 @@ public class Player : MonoBehaviour {
 			return;
 		
 		if (currentShape == pickup.GetShape ()) {
+			if (!Game.instance.running)
+				return;
+			
 			Game.instance.AddScore(10);
 			ShapeShift ();
 		} else {
 			Game.instance.TakeLife (1);
+			explosion.GetComponent<Explosion> ().colour = Game.instance.ColourForShape (pickup.GetShape ());
+			GameObject.Instantiate (explosion, other.gameObject.transform.position, Quaternion.identity);
 		}
 
 		Destroy (other.gameObject);

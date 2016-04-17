@@ -6,8 +6,8 @@ public class Game : MonoBehaviour {
 	public static Game instance;
 	public bool running = true;
 
-	public float speed = .001f;
-	public int pickupSpawnRate = 10;
+	public float speed = .05f;
+	public int pickupSpawnRate = 50;
 	private int score = 0;
 	private int lives = 5;
 	private float timeSinceLastTick = 0f;
@@ -48,15 +48,25 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!running)
-			return;
-		
 		float currentTime = Time.timeSinceLevelLoad;
 		if (currentTime - timeSinceLastTick > 0.25f) {
-			speed += 0.001f;
-			pickupSpawnRate += 2;
+			if (running) {
+				speed += 0.001f;
+				pickupSpawnRate += 2;
+			}
+
 			SpawnStar ();
 			timeSinceLastTick = currentTime;
+		}
+
+		if (!running && Input.GetKeyDown (KeyCode.R)) {
+			running = true;
+			speed = 0.05f;
+			pickupSpawnRate = 50;
+			score = 0;
+			lives = 5; 
+			AddScore (0);
+			TakeLife (0);
 		}
 	}
 
