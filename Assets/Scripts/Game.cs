@@ -19,6 +19,9 @@ public class Game : MonoBehaviour {
 	Text livesText;
 
 	[SerializeField]
+	Text replayText;
+
+	[SerializeField]
 	Sprite squareSprite;
 
 	[SerializeField]
@@ -67,6 +70,7 @@ public class Game : MonoBehaviour {
 			lives = 5; 
 			AddScore (0);
 			TakeLife (0);
+			replayText.enabled = false;
 		}
 	}
 
@@ -121,6 +125,7 @@ public class Game : MonoBehaviour {
 
 		if (lives <= 0) {
 			livesText.text = "Game Over!";
+			replayText.enabled = true;
 			running = false;
 		}
 	}
